@@ -42,7 +42,7 @@ internal class FileBasedScriptCache(
     override fun store(
         compiledScript: CompiledScript,
         script: SourceCode,
-        configuration: ScriptCompilationConfiguration,
+        scriptCompilationConfiguration: ScriptCompilationConfiguration,
     ) {
         val file = getCacheFileForScript(script as FileScriptSource)
         file.outputStream().use { fs ->

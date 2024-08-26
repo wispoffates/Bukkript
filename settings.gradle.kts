@@ -3,6 +3,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -26,14 +27,3 @@ include(
     "script-host",
     "plugin",
 )
-
-plugins {
-    id("com.gradle.enterprise") version("3.13")
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-    }
-}

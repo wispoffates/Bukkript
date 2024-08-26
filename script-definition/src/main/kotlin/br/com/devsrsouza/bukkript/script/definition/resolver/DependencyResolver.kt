@@ -80,12 +80,16 @@ fun resolveScriptStaticDependencies(
 
                         for (artifact in artifacts) {
                             // Adding the dependency only in a plugin folder was not available
+                            /*
                             if (pluginsFolder == null) {
+                                println("Bukkript: Dependency $artifact")
                                 files += mavenResolver.resolve(artifact, mapOf()).valueOrNull() ?: emptyList()
                             }
 
+
                             // Adding the source codes
                             sources += mavenResolver.resolve(artifactAsSource(artifact), mapOf()).valueOrNull() ?: emptyList()
+                            */
                         }
                     }
                 }
@@ -123,7 +127,7 @@ fun resolveExternalDependencies(
     if (!isPackageAvailable(SPIGOT_DEPENDENCY.fqnPackage)) {
         // Downloading sources for IntelliJ
         runBlocking {
-            sources += mavenResolver.resolveSourceFromAnnotations(annotations).valueOrThrow()
+            sources += mavenResolver.h(annotations).valueOrThrow()
         }
     }
 

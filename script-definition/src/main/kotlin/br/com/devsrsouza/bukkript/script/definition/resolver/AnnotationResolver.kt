@@ -45,7 +45,7 @@ fun resolveScriptAnnotation(
                     logLevel = annotation.logLevel
                 }
 
-                is DependPlugin -> pluginDepends.addAll(annotation.plugin)
+                is DependPlugin -> pluginDepends.addAll(annotation.plugin).also { println("Added dependency on plugin ${annotation.plugin[0]}") }
             }
         }
 

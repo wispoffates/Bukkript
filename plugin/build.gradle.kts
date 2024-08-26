@@ -1,4 +1,5 @@
 import java.util.Properties
+import java.io.File
 
 plugins {
     id(libs.plugins.bukkript.build.get().pluginId)
@@ -10,20 +11,16 @@ plugins {
 dependencies {
     compileOnly(libs.spigot.api)
     compileOnly(libs.paper.api)
-    compileOnly(libs.maven.resolver.transportHttp)
-    compileOnly(libs.maven.resolver.connectorBasic)
+    implementation(libs.maven.resolver.transportHttp)
+    implementation(libs.maven.resolver.connectorBasic)
 
     implementation(libs.bstats)
     
     implementation(projects.scriptHost)
 
-    bukkitLibrary(kotlin("stdlib"))
-    implementation(libs.kotlinbukkitapi.architecture) {
-        // ignore this, this will be downloaded by spigot
-        exclude("org.jetbrains.kotlin")
-        exclude("org.jetbrains.kotlinx") // TODO: remove when KBAPI Architecture no longer depend on Coroutines for no reason
-    }
+    implementation(kotlin("stdlib"))
 
+    implementation(libs.kotlinbukkitapi.architecture)
     // this is Called paper libraries but will also be used in Spigot
     // because spigot does not support non maven central repository
     // so the logic here is: we shadow kotlinbukkitapi-architecture only without Kotlin
@@ -32,31 +29,39 @@ dependencies {
     // dependencies from paper dependency file.
     // On Paper side, we just download Kotlin Stdlib because the rest will be avaiable at the
     // final paper dependencies files.
-    paperLibrary(libs.coroutines)
-    paperLibrary(libs.kotlinbukkitapi.coroutines)
-    paperLibrary(libs.kotlinbukkitapi.utility)
-    paperLibrary(libs.kotlinbukkitapi.extensions)
-    paperLibrary(libs.kotlinbukkitapi.exposed)
-    paperLibrary(libs.kotlinbukkitapi.commandLegacy)
-    paperLibrary(libs.kotlinbukkitapi.menu)
-    paperLibrary(libs.kotlinbukkitapi.scoreboardLegacy)
+    implementation(libs.coroutines)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+    
+    //these excludes are gross but I cannot get shadowjar to exclude them
+    //github issues say it might be broken
+    implementation(libs.kotlinbukkitapi.coroutines)
+    implementation(libs.kotlinbukkitapi.utility) 
+    implementation(libs.kotlinbukkitapi.extensions)
+    implementation(libs.kotlinbukkitapi.exposed) 
+    implementation(libs.kotlinbukkitapi.commandLegacy) 
+    implementation(libs.kotlinbukkitapi.menu)
+    implementation(libs.kotlinbukkitapi.scoreboardLegacy)
 
     // scripting dependencies
-    paperLibrary(kotlin("scripting-jvm"))
-    paperLibrary(kotlin("scripting-dependencies"))
-    paperLibrary(kotlin("scripting-dependencies-maven"))
-    paperLibrary(kotlin("scripting-jvm-host-unshaded"))
-    //paperLibrary(kotlin("scripting-compiler-embeddable"))
+    implementation(kotlin("scripting-jvm"))
+    implementation(kotlin("scripting-common"))
+    implementation(kotlin("scripting-dependencies"))
+    implementation(kotlin("scripting-dependencies-maven"))
+    implementation(kotlin("scripting-jvm"))
+    implementation(kotlin("scripting-jvm-host"))
+    implementation(kotlin("scripting-compiler-embeddable"))
+    implementation(kotlin("compiler-embeddable"))
+    implementation(project(":script-definition"))
+    implementation(project(":script-host"))
 }
 
 tasks {
     shadowJar {
         archiveBaseName.set("Bukkript")
-        val commitId = "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
-        version = "$version-b$commitId"
-        archiveClassifier.set("")
+        //archiveClassifier.set("")
         
         relocate("org.bstats", "br.com.devsrsouza.bukkript.bstats")
+        //relocate("br.com.devsrsouza.kotlinbukkitapi","br.com.devsrsouza.kotlinbukkitapi")
     }
 }
 
@@ -67,17 +72,26 @@ bukkit {
     main = pluginMain
     author = "DevSrSouza"
     website = "github.com.br/DevSrSouza"
-    apiVersion = "1.19"
+    apiVersion = "1.21"
     
     description = "Bukkript Scripting."
 }
 
 paper {
-    loader = "br.com.devsrsouza.bukkript.libraryresolver.PluginLibrariesLoader"
+    name = "Bukkript"
+    //loader = "br.com.devsrsouza.bukkript.libraryresolver.PluginLibrariesLoader"
     generateLibrariesJson = true
     main = pluginMain
     description = "Bukkript Scripting."
-    apiVersion = "1.19"
+    apiVersion = "1.21"
+    serverDependencies {
+        register("ProtocolLib") {
+            required = false
+        }
+        register("PlaceholderAPI") {
+            required = false
+        }
+    }
 }
 
 val localProperties = Properties()

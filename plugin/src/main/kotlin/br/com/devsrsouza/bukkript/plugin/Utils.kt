@@ -8,5 +8,6 @@ internal fun BukkriptLoadedScript.disable() {
 }
 
 internal fun BukkriptScript.disable() {
+    println("Called script disable. Count=${onDisableListeners.size} Values=${onDisableListeners.joinToString(",")}")
     onDisableListeners.forEach { it() }
 }

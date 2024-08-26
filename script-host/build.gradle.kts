@@ -8,7 +8,8 @@ dependencies {
     
     api(projects.scriptDefinition)
 
+    compileOnly(kotlin("scripting-common"))
     compileOnly(kotlin("scripting-jvm"))
     compileOnly(kotlin("scripting-jvm-host"))
-    //compileOnly(kotlin("scripting-compiler-embeddable"))
+    compileOnly(kotlin("scripting-compiler-embeddable"))
 }

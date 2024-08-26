@@ -33,15 +33,15 @@ class BukkriptScriptCompilerImpl(
     override suspend fun retrieveDescriptor(scriptFile: File): ScriptDescription? {
         var scriptDescriptionLoaded: ScriptDescription? = null
 
-        println("Tentando fazer o retrieveDescriptor antes de realmente compilar rs rs rs")
+        println("Trying to do retrieveDescriptor before actually compiling lol lol lol")
         val customConfiguration =
             createJvmCompilationConfigurationFromTemplate<BukkriptScript>().with {
                 refineConfiguration {
-                    println("O refineConfiguration foi de comes e executes?")
-//                    beforeParsing {
-//                        println("Oh no before parsing foi chamado corretamente")
-//                        return@beforeParsing ResultWithDiagnostics.Success(it.compilationConfiguration)
-//                    }
+                    println("Was the refineConfiguration of comes and executes?")
+                    beforeParsing {
+                        println("Oh no before parsing was called correctly")
+                        return@beforeParsing ResultWithDiagnostics.Success(it.compilationConfiguration)
+                    }
                     beforeCompiling { context ->
                         println("beforeCompiling refine mother fucker")
                         val info = context.compilationConfiguration[ScriptCompilationConfiguration.info]!!
@@ -56,11 +56,11 @@ class BukkriptScriptCompilerImpl(
         val source = FileScriptSource(scriptFile)
 
         runCatching {
-            println("Tentando fazer aquela compilacao!")
+            println("Trying to make that compilation!")
             compile(source, customConfiguration).valueOrThrow()
-            println("Aquela compilacao foi de OKAY")
+            println("That compilation was OKAY")
         }.onFailure {
-            println("Aquela compilacao foi de comes e bebes")
+            println("That compilation was of food and drinks")
             if (scriptDescriptionLoaded == null) {
                 throw it
             }

@@ -6,8 +6,8 @@ data class Dependency(
     val artifacts: List<String>,
 )
 
-private const val KOTLINBUKKITAPI_VERSION = "0.2.0-SNAPSHOT"
-private const val BUKKRIPT_VERSION = "0.2.0-SNAPSHOT"
+private const val KOTLINBUKKITAPI_VERSION = "1.0.0-SNAPSHOT"
+private const val BUKKRIPT_VERSION = "1.0.0-SNAPSHOT"
 
 val KOTLINBUKKITAPI_DEPENDENCY = Dependency(
     "br.com.devsrsouza.kotlinbukkitapi",
@@ -35,7 +35,7 @@ val SPIGOT_DEPENDENCY = Dependency(
         "https://oss.sonatype.org/content/repositories/snapshots/",
     ),
     listOf(
-        "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT",
+        "org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT",
     ),
 )
 

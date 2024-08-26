@@ -8,10 +8,7 @@ import br.com.devsrsouza.bukkript.script.host.loader.classloader.ClassProvider
 import br.com.devsrsouza.bukkript.script.host.loader.classloader.ScriptClassloader
 import org.bukkit.plugin.Plugin
 import java.io.File
-import kotlin.script.experimental.api.ResultValue
-import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.api.ScriptEvaluationConfiguration
-import kotlin.script.experimental.api.constructorArgs
+import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
 import kotlin.script.experimental.jvm.baseClassLoader
 import kotlin.script.experimental.jvm.jvm
@@ -60,7 +57,7 @@ class BukkriptScriptLoaderImpl(
             is ResultWithDiagnostics.Success -> {
                 when (val it = result.value.returnValue) {
                     is ResultValue.Error -> throw it.error
-                    ResultValue.NotEvaluated -> TODO() // TODO: throw error
+                    ResultValue.NotEvaluated -> throw error("Script not evaluated?!")
                     else -> {
                         // VALUE and UNIT
                         if (it.scriptClass != null && it.scriptInstance !== null) {
@@ -72,12 +69,23 @@ class BukkriptScriptLoaderImpl(
                                 dataFolder,
                             )
                         } else {
-                            TODO() // TODO: throw error
+                            println("Something strange happened while loading the script!")
+                            result.reports.forEach {
+                                println(" : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}")
+                            }
+                           throw error("Success but no script?")
                         }
                     }
                 }
             }
-            is ResultWithDiagnostics.Failure -> TODO() // TODO: throw error
+            is ResultWithDiagnostics.Failure -> {
+                result.reports.forEach {
+                    if (it.severity > ScriptDiagnostic.Severity.DEBUG) {
+                        println(" : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}")
+                    }
+                }
+                throw error("Failure loading script!")
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 package br.com.devsrsouza.bukkript.script.definition
 
 import br.com.devsrsouza.bukkript.script.definition.api.LogLevel
-import br.com.devsrsouza.bukkript.script.definition.compiler.BukkriptScriptCompilationConfiguration
+import br.com.devsrsouza.bukkript.script.definition.configuration.BukkriptScriptCompilationConfiguration
 import br.com.devsrsouza.kotlinbukkitapi.architecture.KotlinPlugin
 import java.io.File
 import kotlin.script.experimental.annotations.KotlinScript

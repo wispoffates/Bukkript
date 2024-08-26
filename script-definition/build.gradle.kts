@@ -6,9 +6,12 @@ plugins {
 dependencies {
     compileOnly(libs.spigot.api)
 
-    compileOnly(kotlin("scripting-jvm"))
-    compileOnly(kotlin("scripting-dependencies"))
-    compileOnly(kotlin("scripting-dependencies-maven"))
+    implementation(kotlin("scripting-common"))
+    implementation(kotlin("scripting-jvm"))
+    implementation(kotlin("scripting-dependencies"))
+    implementation(kotlin("scripting-dependencies-maven"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 
     compileOnly(libs.coroutines)
 
@@ -21,4 +24,6 @@ dependencies {
     compileOnly(libs.kotlinbukkitapi.menu)
     compileOnly(libs.kotlinbukkitapi.scoreboardLegacy)
     //implementation(libs.kotlinbukkitapi.serialization) TODO: support Ktx Serialization at scripts
+
+    //implementation("com.google.inject:guice:4.2.3")
 }

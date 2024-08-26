@@ -232,7 +232,7 @@ class ScriptManagerImpl(
 
         loaded.loadedScript.disable()
 
-        scripts.put(scriptName, ScriptState.Unloaded(scriptName, loaded.loadedScript.compiledScript))
+        scripts[scriptName] = ScriptState.Unloaded(scriptName, loaded.loadedScript.compiledScript)
 
         logger.logScript(scriptName, LogLevel.INFO, "Complete unload the script.")
     }

@@ -1,6 +1,6 @@
 plugins {
     id(libs.plugins.bukkript.build.get().pluginId)
-    //alias(libs.plugins.maven)
+    id("org.gradle.maven-publish")
 }
 
 dependencies {
@@ -8,9 +8,13 @@ dependencies {
 
     implementation(projects.scriptDefinition)
 
+    implementation(kotlin("scripting-common"))
     implementation(kotlin("scripting-jvm"))
     implementation(kotlin("scripting-dependencies"))
     implementation(kotlin("scripting-dependencies-maven"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
 
     implementation(libs.coroutines)
 
