@@ -127,7 +127,7 @@ fun resolveExternalDependencies(
     if (!isPackageAvailable(SPIGOT_DEPENDENCY.fqnPackage)) {
         // Downloading sources for IntelliJ
         runBlocking {
-            sources += mavenResolver.h(annotations).valueOrThrow()
+            sources += mavenResolver.resolveSourceFromAnnotations(annotations).valueOrThrow()
         }
     }
 
